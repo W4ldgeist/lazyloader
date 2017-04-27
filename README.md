@@ -1,6 +1,6 @@
 # LazyLoader
 
-A high performance javascript image lazy loader inspired by medium, facebook. It will load a low res image first, which is then replaced if it *comes into view* in the browser. No fancy effects, no jquery, plain javascript, performance oriented.
+A high performance javascript image lazy loader inspired by medium, facebook. It will load a low res image first, which is then replaced if it *comes into view* in the browser. No fancy effects, no jquery, plain javascript, performance oriented. Got some great inspiratoin from progressive-image.js.
 
 ## Highlights
 
