@@ -20,7 +20,7 @@ Reference the .js and .css file (or include them in your build process). The cod
 It's best to include the .js right above your <body> tag.
 
 ```html
-<link rel="stylesheet" href="css/lazyloader.css">
+<link rel="stylesheet" href="css/lazyload.css">
 <script src="js/lazyloader.js"></script>
 ```
 
