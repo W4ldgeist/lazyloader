@@ -1,0 +1,17 @@
+/* Super minimalist styles. Adjust according to your needs. Add fancy blur, zoom etc. effects as needed */
+.lazy{
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    line-height: 0;
+    display: inherit;
+    pointer-events: none;
+}
+.lazy img{
+    width:100%;
+    height:auto;
+}
+.lazy--hide{
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    -webkit-transition: opacity 0.25s ease-in-out;
+}
