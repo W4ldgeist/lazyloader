@@ -29,7 +29,7 @@ It's best to include the .js right above your <body> tag.
 Then you have to trigger the init function where ever and whenever you feel like it. Usually I would do something like this:
 
 ```javascript
-window.onload = LazyLoader.init;
+window.addEventListener('load', LazyLoader.init);
 ```
 
 *Don't write () at the end of init, or it will be called immediately instead of as a function once the page markup is loaded.*
