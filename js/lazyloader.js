@@ -47,8 +47,7 @@ var LazyLoader = {
     showHighRes: function () {
         var link = this.element.parentNode;
         link.style.backgroundImage = "url('" + link.href + "')";
-        this.element.classList.remove("lazy--low");
-        this.element.classList.add("lazy--hide");
+        this.element.className = "lazy--hide";
         link.onclick = LazyLoader.stopClick && LazyLoader.noClick;
         this.element.loading = false;
     },
