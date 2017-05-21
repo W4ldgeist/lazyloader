@@ -47,3 +47,17 @@ The goal was to have as little additional markup as possible, while still suppor
 Since the high resolution image is loaded as a background to the <a> tag you'll have to make sure they have the same aspect ratio. You can use different images if you want, but any transition effects will not look pretty (you've been warned :)
 
 I hope you enjoy this little piece of code and find it useful. If you have suggestions, improvements go right ahead!
+
+## Dynamic changing markup
+
+If you dynamically load in new content and you want the lib to find those image, you can call:
+
+```javascript
+LazyLoader.updateImageList();
+```
+
+Which will attach all new images to the cached image list. If you've only changed the position of the images - maybe you are using a masonry like image gallery - you can call:
+
+```javascript
+LazyLoader.updateImagePositions();
+```
