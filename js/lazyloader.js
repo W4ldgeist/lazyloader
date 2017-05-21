@@ -1,4 +1,5 @@
 var LazyLoader = {
+    imageList: null,
     viewMinX:0,
     viewMaxX:0,
     timeout: 300,
@@ -12,17 +13,18 @@ var LazyLoader = {
         if('pointer-events' in document.documentElement.style){
             LazyLoader.stopClick = false;
         }
+        LazyLoader.updateImageList();
         LazyLoader.timeoutLoad();
-        window.onscroll = LazyLoader.throttledLoad;
+        window.addEventListener('scroll', LazyLoader.throttledLoad);
     },
     /**
      * Does a visibility check based on the X values
      * @param {Image} element
      * @returns {boolean}
      */
-    isVisible: function(element){
-        var offsetTop = element.offsetTop;
-        var offsetMax = offsetTop + element.height;
+    inView: function(element){
+        var offsetTop = element.top;
+        var offsetMax = element.bottom;
         return (offsetTop >= LazyLoader.viewMinX || offsetMax >= LazyLoader.viewMinX)
             && (offsetTop <= LazyLoader.viewMaxX || offsetMax <= LazyLoader.viewMaxX);
     },
@@ -59,17 +61,39 @@ var LazyLoader = {
         e.preventDefault();
     },
     /**
+     * Updates the local image reference list with the present DOM nodes. Call if you've dynamically changed the DOM image list.
+     */
+    updateImageList: function(){
+        LazyLoader.imageList = Array.prototype.slice.call(document.getElementsByClassName("lazy--low"));
+        LazyLoader.updateImagePositions();
+    },
+    /**
+     * Call if you've moved images around
+     */
+    updateImagePositions: function () {
+        LazyLoader.imageList.forEach(LazyLoader.setImagePosition);
+    },
+    /**
+     * Stores the rect values in the DOM. Otherwise every getBoundingClientRect will cause a reflow/redraw.
+     * @param {HTMLImageElement} image
+     */
+    setImagePosition: function(image){
+        var rect = image.getBoundingClientRect();
+        image.top = rect.top;
+        image.bottom = rect.bottom;
+    },
+    /**
      * If the element is visible it loads the href stored in the link in a placeholder image object, which triggers
      * the onload function to switch out the lowres with the highres image.
      * @param {Image} element
      */
     loadBackground: function (element) {
-        if(LazyLoader.isVisible(element) && !element.loading){
+        if(LazyLoader.inView(element) && !element.loading){
             element.loading = true;
             var image = new Image();
             image.src = element.parentNode.href;
             image.element = element;
-            image.onload = LazyLoader.showHighRes;
+            image.addEventListener('load', LazyLoader.showHighRes);
         }
     },
     /**
@@ -77,10 +101,8 @@ var LazyLoader = {
      * @returns {boolean}
      */
     loadHighRes: function () {
-        var list = Array.prototype.slice.call(document.getElementsByClassName("lazy--low"));
         LazyLoader.setViewPosition();
-        list.forEach(LazyLoader.loadBackground);
-
+        LazyLoader.imageList.forEach(LazyLoader.loadBackground);
         LazyLoader.throttle = false;
         return true;
     },
@@ -97,3 +119,5 @@ var LazyLoader = {
         LazyLoader.throttle = (typeof requestAnimationFrame === 'function' && requestAnimationFrame(LazyLoader.loadHighRes)) || LazyLoader.loadHighRes();
     }
 };
+
+window.addEventListener('load', LazyLoader.init);
